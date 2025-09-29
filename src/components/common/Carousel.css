@@ -1,0 +1,344 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap');
+
+/* Boho Luxurious Minimalist Design System Variables */
+:root {
+  /* Sharp Border Radius System */
+  --radius-none: 0px;
+  --radius-subtle: 2px;
+  --radius-minimal: 4px;
+  --radius-small: 6px;
+  --radius-round: 50%;
+  
+  /* Surface & Overlay Colors */
+  --surface-primary: rgba(255, 255, 255, 1);
+  --surface-elevated: rgba(255, 255, 255, 1);
+  --overlay-primary: rgba(0, 0, 0, 0.4);
+  --overlay-secondary: rgba(0, 0, 0, 0.6);
+  --overlay-hover: rgba(0, 0, 0, 0.7);
+  --overlay-subtle: rgba(0, 0, 0, 0.2);
+  
+  /* Professional Animation System */
+  --ease-professional: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-elegant: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --ease-subtle: cubic-bezier(0.4, 0, 0.6, 1);
+  --duration-instant: 0.15s;
+  --duration-quick: 0.25s;
+  --duration-smooth: 0.4s;
+  --duration-elegant: 0.6s;
+  --duration-sequential: 0.8s;
+  
+  /* Spacing System */
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 2.5rem;
+}
+
+.carousel {
+  position: relative;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--space-xl) 0;
+}
+
+/* Integration with existing design system */
+.collections-carousel,
+.bestsellers-carousel {
+  margin-top: var(--space-xl);
+}
+
+.carousel__container {
+  position: relative;
+  width: 100%;
+}
+
+.carousel__track {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  cursor: grab;
+  user-select: none; /* Prevent text selection during drag */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  touch-action: pan-y pinch-zoom; /* Allow vertical scrolling but prevent horizontal */
+}
+
+.carousel__track:active {
+  cursor: grabbing;
+}
+
+.carousel__track.dragging {
+  cursor: grabbing;
+}
+
+.carousel__slides {
+  display: flex;
+  will-change: transform;
+  transition-timing-function: var(--ease-elegant);
+}
+
+.carousel__item {
+  flex: none;
+  padding: 0 var(--space-sm);
+  position: relative;
+  min-width: 0; /* Prevents flex item from overflowing */
+}
+
+/* Integrated image card following new design system */
+.carousel__item-container {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: var(--radius-none);
+  background: var(--surface-primary);
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.08),
+    0 1px 4px rgba(0, 0, 0, 0.04);
+  transition: all var(--duration-elegant) var(--ease-elegant);
+}
+
+.carousel__item:hover .carousel__item-container {
+  transform: translateY(-8px);
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.15),
+    0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* Sharp, professional image styling */
+.carousel__item-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--duration-sequential) var(--ease-professional);
+  border-radius: var(--radius-none);
+}
+
+.carousel__item:hover .carousel__item-image {
+  transform: scale(1.05);
+}
+
+/* Always visible content overlay system */
+.carousel__item-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--space-lg);
+  background: linear-gradient(
+    to top,
+    var(--overlay-secondary) 0%,
+    var(--overlay-primary) 50%,
+    transparent 100%
+  );
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  color: white;
+  transform: translateY(0);
+  transition: all var(--duration-elegant) var(--ease-elegant);
+}
+
+.carousel__item:hover .carousel__item-content {
+  background: linear-gradient(
+    to top,
+    var(--overlay-hover) 0%,
+    var(--overlay-secondary) 60%,
+    transparent 100%
+  );
+}
+
+/* Sequential animation delays for staggered effect */
+.carousel__item:nth-child(1) .carousel__item-content {
+  transition-delay: 0ms;
+}
+
+.carousel__item:nth-child(2) .carousel__item-content {
+  transition-delay: 100ms;
+}
+
+.carousel__item:nth-child(3) .carousel__item-content {
+  transition-delay: 200ms;
+}
+
+.carousel__item:nth-child(4) .carousel__item-content {
+  transition-delay: 300ms;
+}
+
+/* Content styling within overlay */
+.carousel__item-price {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: var(--space-xs);
+  opacity: 1;
+}
+
+.carousel__item-title {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: var(--space-xs);
+  line-height: 1.3;
+}
+
+.carousel__item-description {
+  font-size: 0.85rem;
+  opacity: 0.9;
+  line-height: 1.4;
+  margin-bottom: var(--space-xs);
+}
+
+.carousel__item-details {
+  font-size: 0.8rem;
+  opacity: 0.8;
+  line-height: 1.4;
+}
+
+/* Navigation arrows removed - swipe/touch only interface */
+
+/* Minimalist professional dots indicator */
+.carousel__dots {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-2xl);
+}
+
+.carousel__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: all var(--duration-smooth) var(--ease-professional);
+  flex-shrink: 0; /* Prevents compression into ellipse */
+}
+
+.carousel__dot:hover:not(:disabled) {
+  background: rgba(44, 24, 16, 0.6);
+  transform: scale(1.2);
+}
+
+.carousel__dot--active {
+  background: rgba(44, 24, 16, 1);
+  transform: scale(1.3);
+}
+
+.carousel__dot:disabled {
+  cursor: not-allowed;
+  opacity: 0.3;
+}
+
+/* Responsive Design following new design system */
+
+/* Desktop: 3 items visible */
+@media (min-width: 1024px) {
+  .carousel__item {
+    padding: 0 var(--space-md);
+  }
+  
+  .carousel__item-content {
+    padding: var(--space-lg);
+  }
+}
+
+/* Tablet: 2 items visible */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .carousel__item {
+    padding: 0 var(--space-sm);
+  }
+  
+  .carousel__item-content {
+    padding: var(--space-md);
+  }
+  
+  .carousel__item-price {
+    font-size: 1.1rem;
+  }
+  
+  .carousel__item-title {
+    font-size: 0.95rem;
+  }
+  
+  .carousel__item-description {
+    font-size: 0.8rem;
+  }
+  
+  .carousel__item-details {
+    font-size: 0.75rem;
+  }
+}
+
+/* Mobile: 1 item visible */
+@media (max-width: 767px) {
+  .carousel {
+    padding: var(--space-lg) 0;
+  }
+  
+  .carousel__item {
+    padding: 0 var(--space-xs);
+  }
+  
+  .carousel__item-content {
+    padding: var(--space-md);
+  }
+  
+  .carousel__item-price {
+    font-size: 1.1rem;
+  }
+  
+  .carousel__item-title {
+    font-size: 0.9rem;
+  }
+  
+  .carousel__item-description {
+    font-size: 0.8rem;
+  }
+  
+  .carousel__item-details {
+    font-size: 0.75rem;
+  }
+  
+  .carousel__dots {
+    margin-top: var(--space-xl);
+    gap: var(--space-xs);
+  }
+  
+  .carousel__dot {
+    width: 6px;
+    height: 6px;
+    flex-shrink: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel {
+    padding: var(--space-md) 0;
+  }
+  
+  .carousel__item {
+    padding: 0 0.25rem;
+  }
+  
+  .carousel__item-content {
+    padding: var(--space-sm);
+  }
+  
+  .carousel__item-price {
+    font-size: 1rem;
+  }
+  
+  .carousel__item-title {
+    font-size: 0.85rem;
+  }
+  
+  .carousel__item-description {
+    font-size: 0.75rem;
+  }
+  
+  .carousel__item-details {
+    font-size: 0.7rem;
+  }
+}
