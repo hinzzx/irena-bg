@@ -20,7 +20,7 @@ const Contact: React.FC = () => {
     resolver: zodResolver(contactSchema)
   });
 
-  const onSubmit = async (_data: ContactFormData) => {
+  const onSubmit = async () => {
     setIsSubmitting(true);
     setMessage(null);
 
@@ -33,7 +33,7 @@ const Contact: React.FC = () => {
         text: 'Благодарим за съобщението! Ще се свържем с вас в най-скоро време.' 
       });
       reset();
-    } catch (error) {
+    } catch {
       setMessage({ type: 'error', text: 'Възникна грешка. Моля, опитайте отново.' });
     } finally {
       setIsSubmitting(false);

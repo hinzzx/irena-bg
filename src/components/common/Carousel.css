@@ -64,7 +64,7 @@
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-  touch-action: pan-y pinch-zoom; /* Allow vertical scrolling but prevent horizontal */
+  touch-action: pan-y; /* Allow vertical scrolling by default, JS will prevent when needed */
 }
 
 .carousel__track:active {
@@ -201,6 +201,7 @@
 .carousel__dots {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: var(--space-sm);
   margin-top: var(--space-2xl);
 }
@@ -208,12 +209,18 @@
 .carousel__dot {
   width: 8px;
   height: 8px;
+  min-width: 8px; /* Prevent shrinking */
+  min-height: 8px; /* Prevent shrinking */
+  max-width: 8px; /* Prevent growing */
+  max-height: 8px; /* Prevent growing */
   border-radius: 50%;
   border: none;
   background: rgba(0, 0, 0, 0.2);
   cursor: pointer;
   transition: all var(--duration-smooth) var(--ease-professional);
   flex-shrink: 0; /* Prevents compression into ellipse */
+  padding: 0; /* Remove any default button padding */
+  aspect-ratio: 1 / 1; /* Force circular aspect ratio */
 }
 
 .carousel__dot:hover:not(:disabled) {
@@ -309,6 +316,10 @@
   .carousel__dot {
     width: 6px;
     height: 6px;
+    min-width: 6px;
+    min-height: 6px;
+    max-width: 6px;
+    max-height: 6px;
     flex-shrink: 0;
   }
 }

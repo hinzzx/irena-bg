@@ -203,9 +203,16 @@ p {
 }
 
 .btn--primary {
-  color: var(--ink);
+  color: var(--charcoal);
   background: linear-gradient(135deg, var(--cream) 0%, var(--softPink) 100%);
   box-shadow: var(--shadow-md);
+}
+
+/* Enhanced button styling for Hero section */
+.hero .btn--primary {
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(212, 165, 116, 0.2);
 }
 
 .btn--primary::before {
@@ -426,6 +433,7 @@ p {
   left: 0;
   width: 100%;
   height: 100vh;
+  height: calc(var(--vh, 1vh) * 100); /* Fallback for iOS Safari */
   background: linear-gradient(135deg, var(--softPink) 0%, var(--mutedPink) 100%);
   z-index: 1000;
   opacity: 0;
@@ -606,23 +614,56 @@ p {
 .hero {
   position: relative;
   height: 100vh;
+  height: calc(var(--vh, 1vh) * 100); /* Fallback for iOS Safari */
   min-height: 600px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  /* Prevent iOS Safari from resizing content during scroll */
+  touch-action: pan-y;
+  /* Prevent layout shifts */
+  contain: layout;
 }
 
 .hero__image {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  /* Use fixed pixel height based on initial viewport to prevent resizing */
+  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
+  min-height: 100vh; /* Fallback to ensure coverage */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  background-attachment: fixed;
   z-index: -1;
+  /* GPU acceleration to prevent repaints */
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  /* Prevent image from being affected by iOS toolbar */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Desktop: zoom out to show more of the image and reduce quality loss */
+@media (min-width: 768px) {
+  .hero__image {
+    /* Show more of the image by fitting height fully */
+    background-size: auto 110vh;
+    background-position: center center;
+  }
+}
+
+/* Large desktop: further optimization */
+@media (min-width: 1440px) {
+  .hero__image {
+    /* Show even more on very large screens */
+    background-size: auto 120vh;
+    background-position: center center;
+  }
 }
 
 .hero__image::after {
@@ -632,10 +673,12 @@ p {
   left: 0;
   width: 100%;
   height: 100%;
+  /* Enhanced overlay for better text contrast */
   background: linear-gradient(
     135deg,
-    rgba(250, 247, 242, 0.4) 0%,
-    rgba(232, 197, 184, 0.2) 100%
+    rgba(58, 54, 50, 0.35) 0%,
+    rgba(232, 197, 184, 0.25) 50%,
+    rgba(250, 247, 242, 0.3) 100%
   );
 }
 
@@ -644,23 +687,59 @@ p {
   z-index: 1;
   max-width: 600px;
   padding: var(--space-lg);
+  /* Move content higher on the screen */
+  margin-top: -10vh;
+}
+
+/* Irena Illustration SVG */
+.hero__illustration {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: -1rem;
+  z-index: 2;
+  /* Matching drop shadow from hero title */
+  filter: drop-shadow(2px 2px 8px rgba(58, 54, 50, 0.6))
+          drop-shadow(0 0 20px rgba(212, 165, 116, 0.3))
+          drop-shadow(1px 1px 3px rgba(0, 0, 0, 0.4));
+}
+
+.hero__illustration-image {
+  width: 150px;
+  height: auto;
+  /* Matching drop shadow from hero title */
+  filter: drop-shadow(2px 2px 8px rgba(58, 54, 50, 0.6))
+          drop-shadow(0 0 20px rgba(212, 165, 116, 0.3))
+          drop-shadow(1px 1px 3px rgba(0, 0, 0, 0.4));
 }
 
 .hero__title {
   font-family: var(--font-logo);
   font-size: clamp(4rem, 12vw, 8rem);
   font-weight: 700;
-  margin-bottom: var(--space-sm);
-  color: var(--ink);
+  margin-bottom: var(--space-2xl);
+  /* Light cream color for contrast against dark background */
+  color: var(--offWhite);
   line-height: 0.9;
+  /* Elegant shadow for depth and readability */
+  text-shadow: 
+    2px 2px 8px rgba(58, 54, 50, 0.6),
+    0 0 20px rgba(212, 165, 116, 0.3),
+    1px 1px 3px rgba(0, 0, 0, 0.4);
 }
 
 .hero__subtitle {
   font-size: var(--text-lg);
   font-weight: 300;
   margin-bottom: var(--space-xl);
-  color: var(--ink);
+  /* Soft cream for elegance */
+  color: var(--cream);
   letter-spacing: 0.02em;
+  /* Subtle shadow for better readability */
+  text-shadow: 
+    1px 1px 4px rgba(58, 54, 50, 0.7),
+    0 0 12px rgba(0, 0, 0, 0.3);
 }
 
 /* Hero Animations */
@@ -670,7 +749,7 @@ p {
   opacity: 0;
   transform: translateY(30px);
   animation-fill-mode: both;
-  animation-duration: 0.8s;
+  animation-duration: 0.6s;
   animation-timing-function: var(--ease-elegant);
 }
 
@@ -678,6 +757,12 @@ p {
 .hero__subtitle.animate-in,
 .hero .btn.animate-in {
   animation-name: slideInUp;
+}
+
+.hero__title {
+  position: relative;
+  /* Positioning context for SVG necklace */
+  display: inline-block;
 }
 
 @keyframes slideInUp {
@@ -698,6 +783,12 @@ p {
   
   .hero__content {
     padding: var(--space-md);
+    /* Less negative margin on mobile for better positioning */
+    margin-top: -5vh;
+  }
+  
+  .hero__illustration-image {
+    width: 100px; /* Smaller on mobile */
   }
 }
 
@@ -709,6 +800,10 @@ p {
 .about {
   padding: var(--space-3xl) 0;
   background: linear-gradient(135deg, var(--softPink) 0%, var(--blush) 100%);
+  /* Ensure section is on its own layer to prevent Hero background from affecting it */
+  position: relative;
+  z-index: 1;
+  transform: translateZ(0);
 }
 
 .about__grid {

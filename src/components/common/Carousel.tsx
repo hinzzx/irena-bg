@@ -35,6 +35,8 @@ const Carousel: React.FC<CarouselProps> = ({
   const [startTranslateX, setStartTranslateX] = useState(0);
   const [totalDragDistance, setTotalDragDistance] = useState(0);
   const [responsiveItemsPerView, setResponsiveItemsPerView] = useState(itemsPerView);
+  const [dragDirection, setDragDirection] = useState<'horizontal' | 'vertical' | null>(null);
+  const [initialTouchY, setInitialTouchY] = useState<number | null>(null);
   const trackRef = useRef<HTMLDivElement>(null);
 
   // Update items per view based on screen size
@@ -246,34 +248,63 @@ const Carousel: React.FC<CarouselProps> = ({
     }
   };
 
-  // Real-time touch handlers
+  // Real-time touch handlers with scroll prevention
   const handleTouchStart = (e: React.TouchEvent) => {
     setIsDragging(true);
     setDragStart(e.targetTouches[0].clientX);
+    setInitialTouchY(e.targetTouches[0].clientY);
     setStartTranslateX(translateX);
     setTotalDragDistance(0);
+    setDragDirection(null); // Reset direction
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
-    if (!isDragging || dragStart === null) return;
+    if (!isDragging || dragStart === null || initialTouchY === null) return;
     
     const currentX = e.targetTouches[0].clientX;
-    const deltaX = dragStart - currentX; // Reversed for natural drag direction
-    const newTranslateX = constrainTranslateX(startTranslateX + deltaX);
+    const currentY = e.targetTouches[0].clientY;
+    const deltaX = dragStart - currentX;
+    const deltaY = initialTouchY - currentY;
     
-    // Track total drag distance for snapping decision
-    setTotalDragDistance(Math.abs(deltaX));
-    setTranslateX(newTranslateX);
+    // Determine drag direction on first significant movement
+    if (dragDirection === null && (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5)) {
+      if (Math.abs(deltaX) > Math.abs(deltaY)) {
+        setDragDirection('horizontal');
+      } else {
+        setDragDirection('vertical');
+      }
+    }
+    
+    // If user is dragging horizontally, prevent page scroll
+    if (dragDirection === 'horizontal') {
+      e.preventDefault(); // Prevent vertical scrolling
+      
+      const newTranslateX = constrainTranslateX(startTranslateX + deltaX);
+      
+      // Track total drag distance for snapping decision
+      setTotalDragDistance(Math.abs(deltaX));
+      setTranslateX(newTranslateX);
+    } else if (dragDirection === 'vertical') {
+      // User is scrolling vertically - cancel carousel drag
+      setIsDragging(false);
+      setDragStart(null);
+      setInitialTouchY(null);
+      setDragDirection(null);
+    }
   };
 
   const handleTouchEnd = () => {
     if (!isDragging) return;
     
+    const wasHorizontalDrag = dragDirection === 'horizontal';
+    
     setIsDragging(false);
     setDragStart(null);
+    setInitialTouchY(null);
+    setDragDirection(null);
     
-    // Only snap if user dragged more than 20px to prevent accidental snapping
-    if (totalDragDistance > 20) {
+    // Only snap if user dragged horizontally more than 20px
+    if (wasHorizontalDrag && totalDragDistance > 20) {
       snapToMostVisible();
     }
   };

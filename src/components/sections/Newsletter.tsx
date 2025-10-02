@@ -16,7 +16,7 @@ const Newsletter: React.FC = () => {
     resolver: zodResolver(newsletterSchema)
   });
 
-  const onSubmit = async (_data: NewsletterFormData) => {
+  const onSubmit = async () => {
     setIsSubmitting(true);
     setMessage(null);
 
@@ -26,7 +26,7 @@ const Newsletter: React.FC = () => {
       
       setMessage({ type: 'success', text: 'Благодарим! Успешно се записахте за нашия бюлетин.' });
       reset();
-    } catch (error) {
+    } catch {
       setMessage({ type: 'error', text: 'Възникна грешка. Моля, опитайте отново.' });
     } finally {
       setIsSubmitting(false);
