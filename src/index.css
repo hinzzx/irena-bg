@@ -3,6 +3,10 @@
    ========================================================================== */
 
 :root {
+  /* ========================================================================
+     Design Tokens - Navigation System
+     ======================================================================== */
+  
   /* Color Palette - More gentle and feminine */
   --cream: #FBF9F6;
   --offWhite: #FFFEFB;
@@ -23,46 +27,114 @@
   --ink: var(--charcoal);
   --stone: var(--lightStone);
   
+  /* Navigation Color Roles */
+  --nav-bg: rgba(255, 253, 248, 0.95);
+  --nav-text: var(--charcoal);
+  --nav-text-hover: var(--roseGold);
+  --nav-text-active: var(--roseGold);
+  --nav-border: rgba(200, 194, 182, 0.2);
+  --nav-focus-ring: rgba(212, 165, 116, 0.3);
+  
+  /* Overlay Color Roles */
+  --overlay-bg: linear-gradient(135deg, var(--softPink) 0%, var(--mutedPink) 100%);
+  --overlay-backdrop: rgba(58, 54, 50, 0.6);
+  --overlay-text: var(--charcoal);
+  --overlay-text-hover: var(--roseGold);
+  
   /* Typography */
   --font-logo: 'Tangerine', cursive;
   --font-heading: 'Montserrat', system-ui, sans-serif;
   --font-body: 'Montserrat', system-ui, sans-serif;
   
-  /* Spacing Scale */
-  --space-xs: 0.5rem;
-  --space-sm: 1rem;
-  --space-md: 1.5rem;
-  --space-lg: 2rem;
-  --space-xl: 3rem;
-  --space-2xl: 4rem;
-  --space-3xl: 6rem;
-  
-  /* Font Sizes */
+  /* Typography Scale - Fluid with clamp() */
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
   --text-base: 1rem;
   --text-lg: 1.125rem;
   --text-xl: 1.25rem;
-  --text-2xl: 1.5rem;
-  --text-3xl: 1.875rem;
-  --text-4xl: 2.25rem;
-  --text-5xl: 3rem;
+  --text-2xl: clamp(1.5rem, 3vw, 1.875rem);
+  --text-3xl: clamp(1.875rem, 4vw, 2.25rem);
+  --text-4xl: clamp(2.25rem, 5vw, 3rem);
+  --text-5xl: clamp(3rem, 8vw, 4rem);
   
-  /* Layout */
+  /* Line Heights */
+  --line-height-tight: 1.2;
+  --line-height-base: 1.5;
+  --line-height-relaxed: 1.7;
+  
+  /* Spacing Scale - 4px/8px based */
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.25rem;   /* 20px */
+  --space-6: 1.5rem;    /* 24px */
+  --space-8: 2rem;      /* 32px */
+  --space-10: 2.5rem;   /* 40px */
+  --space-12: 3rem;     /* 48px */
+  --space-16: 4rem;     /* 64px */
+  --space-20: 5rem;     /* 80px */
+  --space-24: 6rem;     /* 96px */
+  
+  /* Legacy spacing (mapped to new scale) */
+  --space-xs: var(--space-2);
+  --space-sm: var(--space-4);
+  --space-md: var(--space-6);
+  --space-lg: var(--space-8);
+  --space-xl: var(--space-12);
+  --space-2xl: var(--space-16);
+  --space-3xl: var(--space-24);
+  
+  /* Layout Grid System */
   --container-max: 1200px;
+  --container-padding: var(--space-6);
+  --container-padding-mobile: var(--space-4);
+  --nav-height: 80px;
+  --burger-size: 44px; /* WCAG 2.2 AA minimum touch target */
+  --burger-bar-height: 3px;
+  --burger-bar-spacing: 9px;
+  
+  /* Border Radius */
   --border-radius: 0.25rem;
+  --border-radius-lg: 0.5rem;
+  
+  /* Transitions & Animations */
   --transition: all 0.3s ease;
+  --transition-fast: all 0.18s ease-out;
+  --transition-base: all 0.24s ease-out;
+  --transition-slow: all 0.36s ease-out;
+  
+  /* Animation Durations */
+  --duration-fast: 180ms;
+  --duration-base: 240ms;
+  --duration-slow: 360ms;
+  
+  /* Easing Functions */
+  --ease-gentle: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-elegant: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   
   /* Shadows - Softer and more subtle */
   --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.03);
   --shadow-md: 0 2px 8px -1px rgb(0 0 0 / 0.06), 0 1px 3px -1px rgb(0 0 0 / 0.04);
   --shadow-lg: 0 8px 25px -3px rgb(0 0 0 / 0.08), 0 4px 10px -2px rgb(0 0 0 / 0.05);
   
-  /* Animation */
-  --ease-gentle: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
-  --ease-elegant: cubic-bezier(0.25, 0.1, 0.25, 1);
+  /* Z-Index Scale */
+  --z-base: 1;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-fixed: 300;
+  --z-overlay: 1000;
+  --z-modal: 2000;
+  --z-tooltip: 3000;
+  
+  /* Safe Area Insets (iOS notch support) */
+  --safe-area-top: env(safe-area-inset-top, 0);
+  --safe-area-right: env(safe-area-inset-right, 0);
+  --safe-area-bottom: env(safe-area-inset-bottom, 0);
+  --safe-area-left: env(safe-area-inset-left, 0);
 }
 
 /* ==========================================================================
@@ -79,17 +151,60 @@ html {
   scroll-behavior: smooth;
 }
 
+/* ==========================================================================
+   REDUCED MOTION ACCESSIBILITY
+   ========================================================================== */
+
 @media (prefers-reduced-motion: reduce) {
+  /* Disable smooth scrolling */
   html {
     scroll-behavior: auto;
   }
   
+  /* Reduce all animations and transitions to near-instant */
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+  
+  /* Disable transforms that create movement illusion */
+  .c-overlay__content {
+    transform: none !important;
+  }
+  
+  .c-overlay__item {
+    transform: none !important;
+  }
+  
+  .c-overlay__link:hover,
+  .c-overlay__link:focus-visible {
+    transform: none !important;
+  }
+  
+  .c-overlay__flourish {
+    transform: none !important;
+  }
+  
+  .c-overlay__social {
+    transform: none !important;
+  }
+  
+  .reveal {
+    transform: none !important;
+  }
+  
+  /* Keep opacity changes for visibility, but instant */
+  .c-overlay,
+  .c-overlay.is-open {
+    transition: opacity 0.01ms, visibility 0ms !important;
+  }
+  
+  /* Keep burger animation functional but instant */
+  .c-burger__line {
+    transition: all 0.01ms !important;
   }
 }
 
@@ -298,21 +413,19 @@ p {
   top: 0;
   left: 0;
   right: 0;
-  background-color: rgba(255, 253, 248, 0.95);
-  backdrop-filter: blur(10px);
-  z-index: 1000;
-  border-bottom: 1px solid rgba(200, 194, 182, 0.2);
+  background: #EFE0D7;
+  z-index: calc(var(--z-overlay) + 10);
   padding: var(--space-sm) 0;
 }
 
 .header__top {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: var(--space-sm);
-  margin: var(--space-sm) 0;
+  justify-content: end;
+  padding: var(--space-3) var(--space-4);
+  margin: 0;
   position: relative;
-  flex-direction: row-reverse;
+  min-height: 60px;
 }
 
 .nav__brand {
@@ -320,6 +433,7 @@ p {
   left: 50%;
   transform: translateX(-50%);
   z-index: 2;
+  pointer-events: auto;
 }
 
 .header__social {
@@ -332,6 +446,11 @@ p {
   transition: var(--transition);
   padding: var(--space-xs);
   border-radius: 50%;
+  width: 2.25rem;
+  height: 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .social-link:hover {
@@ -383,226 +502,439 @@ p {
   color: var(--lightGold);
 }
 
-/* Burger Menu */
-.nav__burger {
+/* ==========================================================================
+   BURGER BUTTON - Three Animation Variants
+   ========================================================================== */
+
+/* Base Burger Button Styles */
+.c-burger {
   display: none;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 24px;
-  height: 18px;
+  position: relative;
+  width: var(--burger-size);
+  height: var(--burger-size);
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0;
-  z-index: 1001;
+  padding: var(--space-2);
+  z-index: calc(var(--z-overlay) + 20);
+  -webkit-tap-highlight-color: transparent;
 }
 
-.nav__burger-line {
+.c-burger:focus-visible {
+  outline: 3px solid var(--nav-focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--border-radius);
+}
+
+/* Burger Line Base Styles */
+.c-burger__line {
   display: block;
-  height: 2px;
-  width: 100%;
-  background-color: var(--charcoal);
-  border-radius: 1px;
-  transition: all 0.3s var(--ease-gentle);
-  transform-origin: center;
+  width: 30px;
+  height: var(--burger-bar-height);
+  background-color: var(--nav-text);
+  border-radius: 2px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: all var(--duration-base) var(--ease-smooth);
+  will-change: transform, opacity;
 }
 
-/* Smooth burger to cross animation */
-.nav__burger-line {
-  transform-origin: center;
-  transition: all 0.3s var(--ease-elegant);
+.c-burger__line:nth-child(1) {
+  top: calc(50% - var(--burger-bar-spacing));
 }
 
-.nav__burger.active .nav__burger-line:nth-child(1) {
-  transform: rotate(45deg) translate(5px, 5px);
+.c-burger__line:nth-child(2) {
+  top: 50%;
 }
 
-.nav__burger.active .nav__burger-line:nth-child(2) {
+.c-burger__line:nth-child(3) {
+  top: calc(50% + var(--burger-bar-spacing));
+}
+
+.c-burger:hover .c-burger__line,
+.c-burger:active .c-burger__line,
+.c-burger:focus .c-burger__line {
+  background-color: var(--nav-text);
+}
+
+/* ==========================================================================
+   ANIMATION VARIANT 1: Morph Lines (Default)
+   Usage: data-animation="morph-lines"
+   ========================================================================== */
+
+.c-burger[data-animation="morph-lines"].is-open .c-burger__line:nth-child(1) {
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.c-burger[data-animation="morph-lines"].is-open .c-burger__line:nth-child(2) {
   opacity: 0;
-  transform: scaleX(0);
+  transform: translate(-50%, -50%) scaleX(0);
 }
 
-.nav__burger.active .nav__burger-line:nth-child(3) {
-  transform: rotate(-45deg) translate(7px, -6px);
+.c-burger[data-animation="morph-lines"].is-open .c-burger__line:nth-child(3) {
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
 }
 
-/* Mobile Menu Overlay */
-.mobile-menu {
+/* ==========================================================================
+   ANIMATION VARIANT 2: Split Draw
+   Usage: data-animation="split-draw"
+   ========================================================================== */
+
+.c-burger[data-animation="split-draw"] .c-burger__line {
+  transition: all var(--duration-base) var(--ease-elegant);
+}
+
+.c-burger[data-animation="split-draw"].is-open .c-burger__line:nth-child(1) {
+  top: 50%;
+  transform: translate(-50%, -50%) translateX(-4px) rotate(45deg);
+}
+
+.c-burger[data-animation="split-draw"].is-open .c-burger__line:nth-child(2) {
+  opacity: 0;
+  transform: translate(-50%, -50%) scaleX(0.3);
+}
+
+.c-burger[data-animation="split-draw"].is-open .c-burger__line:nth-child(3) {
+  top: 50%;
+  transform: translate(-50%, -50%) translateX(4px) rotate(-45deg);
+}
+
+/* ==========================================================================
+   ANIMATION VARIANT 3: Corner Pivot (Spring)
+   Usage: data-animation="corner-pivot"
+   ========================================================================== */
+
+.c-burger[data-animation="corner-pivot"] .c-burger__line {
+  transition: all var(--duration-slow) var(--ease-spring);
+}
+
+.c-burger[data-animation="corner-pivot"] .c-burger__line:nth-child(1) {
+  transform-origin: left center;
+  left: 7px;
+  transform: translateX(0);
+}
+
+.c-burger[data-animation="corner-pivot"] .c-burger__line:nth-child(2) {
+  transform-origin: center center;
+}
+
+.c-burger[data-animation="corner-pivot"] .c-burger__line:nth-child(3) {
+  transform-origin: right center;
+  left: auto;
+  right: 7px;
+  transform: translateX(0);
+}
+
+.c-burger[data-animation="corner-pivot"].is-open .c-burger__line:nth-child(1) {
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg) scaleX(1.08);
+}
+
+.c-burger[data-animation="corner-pivot"].is-open .c-burger__line:nth-child(2) {
+  opacity: 0;
+  transform: translate(-50%, -50%) scaleX(0);
+}
+
+.c-burger[data-animation="corner-pivot"].is-open .c-burger__line:nth-child(3) {
+  top: 50%;
+  transform: translateY(-50%) rotate(-45deg) scaleX(1.08);
+}
+
+/* ==========================================================================
+   MOBILE OVERLAY MENU
+   ========================================================================== */
+
+/* Overlay Container */
+.c-overlay {
   position: fixed;
   top: 0;
   left: 0;
+  right: 0;
+  bottom: 0;
   width: 100%;
+  height: 100dvh; /* Dynamic viewport height for iOS */
   height: 100vh;
-  height: calc(var(--vh, 1vh) * 100); /* Fallback for iOS Safari */
-  background: linear-gradient(135deg, var(--softPink) 0%, var(--mutedPink) 100%);
-  z-index: 1000;
+  z-index: var(--z-overlay);
+  background: #EFE0D7;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.4s var(--ease-gentle);
-  backdrop-filter: blur(10px);
+  pointer-events: none;
+  overflow: hidden;
+  overscroll-behavior: contain;
+  transition: opacity var(--duration-base) var(--ease-smooth),
+              visibility 0ms var(--duration-base);
+  /* Respect safe areas (iOS notch) */
+  padding-right: var(--safe-area-right);
+  padding-bottom: var(--safe-area-bottom);
+  padding-left: var(--safe-area-left);
+  /* Start below navbar */
+  padding-top: calc(80px + var(--safe-area-top));
 }
 
-.mobile-menu.active {
+.c-overlay.is-open {
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
+  touch-action: none;
+  transition: opacity var(--duration-base) var(--ease-smooth),
+              visibility 0ms 0ms;
 }
 
-.mobile-menu__content {
+/* Prevent body scroll when overlay is open */
+body:has(.c-overlay.is-open) {
+  overflow: hidden !important;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+/* Backdrop Overlay - Removed, not needed */
+.c-overlay__backdrop {
+  display: none;
+}
+
+/* Content Container */
+.c-overlay__content {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
-  padding: var(--space-2xl);
+  padding-top: var(--space-8);
+  padding-bottom: var(--space-16);
+  min-height: 90%;
+  background: transparent;
+  padding-left: var(--container-padding-mobile);
+  padding-right: var(--container-padding-mobile);
   text-align: center;
-  position: relative;
+  overflow: hidden;
+  transform: translateY(20px);
+  transition: transform var(--duration-base) var(--ease-smooth);
 }
 
-.mobile-menu__close {
-  position: absolute;
-  top: var(--space-lg);
-  right: var(--space-lg);
-  z-index: 20;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: var(--space-sm);
-  opacity: 0;
-  transform: scale(0.8);
-  transition: all 0.3s var(--ease-elegant) 0.1s;
-}
-
-.mobile-menu.active .mobile-menu__close {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.mobile-menu__close .nav__burger-line {
-  background-color: var(--charcoal);
-  width: 24px;
-  height: 2px;
-  display: block;
-  margin: 4px 0;
-  border-radius: 1px;
-  transform-origin: center;
-  transition: all 0.3s var(--ease-elegant);
-}
-
-.mobile-menu__close.active .nav__burger-line:nth-child(1) {
-  transform: rotate(45deg) translate(5px, 5px);
-}
-
-.mobile-menu__close.active .nav__burger-line:nth-child(2) {
-  opacity: 0;
-  transform: scaleX(0);
-}
-
-.mobile-menu__close.active .nav__burger-line:nth-child(3) {
-  transform: rotate(-45deg) translate(7px, -6px);
-}
-
-.mobile-menu__header {
-  position: absolute;
-  top: var(--space-2xl);
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
-}
-
-.mobile-menu__logo {
-  font-family: var(--font-logo);
-  font-size: 3rem;
-  font-weight: 700;
-  color: var(--charcoal);
-  text-decoration: none;
-  letter-spacing: 0.01em;
-  opacity: 0;
-  transform: translateY(-20px);
-  transition: all 0.4s var(--ease-elegant) 0.2s;
-}
-
-.mobile-menu.active .mobile-menu__logo {
-  opacity: 1;
+.c-overlay.is-open .c-overlay__content {
   transform: translateY(0);
 }
 
-.mobile-menu__links {
+/* Overlay Header (Logo) - Hidden since logo stays in navbar */
+.c-overlay__header {
+  display: none;
+}
+
+.c-overlay__logo {
+  display: none;
+}
+
+/* Navigation Container */
+.c-overlay__nav {
+  width: 100%;
+  max-width: 600px;
+}
+
+/* Navigation List */
+.c-overlay__links {
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--space-xl);
+  gap: var(--space-8);
+  align-items: center;
 }
 
-.mobile-menu__link {
-  font-family: var(--font-heading);
-  font-size: var(--text-2xl);
-  font-weight: 300;
-  color: var(--charcoal);
-  text-decoration: none;
-  letter-spacing: 0.02em;
-  transition: all 0.3s var(--ease-gentle);
+.c-overlay__item {
   opacity: 0;
   transform: translateY(20px);
+  transition: opacity var(--duration-base) var(--ease-smooth),
+              transform var(--duration-base) var(--ease-smooth);
 }
 
-.mobile-menu.active .mobile-menu__link {
+.c-overlay.is-open .c-overlay__item {
   opacity: 1;
   transform: translateY(0);
 }
 
-.mobile-menu__link:hover,
-.mobile-menu__link:focus-visible {
-  color: var(--roseGold);
+/* Navigation Links */
+.c-overlay__link {
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
+  font-weight: 300;
+  color: var(--overlay-text);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  line-height: var(--line-height-base);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--border-radius);
+  transition: all var(--duration-fast) var(--ease-smooth);
+  display: inline-block;
+  position: relative;
+}
+
+.c-overlay__link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 80%;
+  height: 2px;
+  background: var(--overlay-text-hover);
+  transition: transform var(--duration-fast) var(--ease-smooth);
+}
+
+.c-overlay__link:hover,
+.c-overlay__link:focus-visible {
+  color: var(--overlay-text-hover);
   transform: scale(1.05);
 }
 
-.mobile-menu__flourish {
-  margin-top: var(--space-2xl);
-  color: var(--roseGold);
-  opacity: 0;
-  transform: scale(0.8);
-  transition: all 0.4s var(--ease-gentle) 0.5s;
+.c-overlay__link:hover::after,
+.c-overlay__link:focus-visible::after {
+  transform: translateX(-50%) scaleX(1);
 }
 
-.mobile-menu.active .mobile-menu__flourish {
-  opacity: 1;
-  transform: scale(1);
+.c-overlay__link:focus-visible {
+  outline: 3px solid var(--nav-focus-ring);
+  outline-offset: 4px;
 }
+
+.c-overlay__link:active {
+  transform: scale(0.98);
+}
+
+/* Flourish Decoration */
+.c-overlay__flourish {
+  margin-top: var(--space-12);
+  color: var(--overlay-text-hover);
+  opacity: 0;
+  transform: scale(0.8) rotate(-15deg);
+  transition: all var(--duration-slow) var(--ease-smooth) 300ms;
+}
+
+.c-overlay.is-open .c-overlay__flourish {
+  opacity: 0.8;
+  transform: scale(1) rotate(0deg);
+}
+
+/* Social Links */
+.c-overlay__social {
+  margin-top: var(--space-8);
+  display: flex;
+  gap: var(--space-4);
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all var(--duration-base) var(--ease-smooth) 400ms;
+}
+
+.c-overlay.is-open .c-overlay__social {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.c-overlay__social .social-link {
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid rgba(58, 54, 50, 0.2);
+  transition: all var(--duration-fast) var(--ease-smooth);
+}
+
+.c-overlay__social .social-link:hover,
+.c-overlay__social .social-link:focus-visible {
+  border-color: var(--overlay-text-hover);
+  background-color: rgba(212, 165, 116, 0.15);
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   RESPONSIVE BREAKPOINTS
+   ========================================================================== */
 
 @media (max-width: 767px) {
+  /* Hide desktop navigation */
   .nav__menu {
     display: none;
   }
   
-  .nav__burger {
+  /* Show burger button on mobile */
+  .c-burger {
     display: flex;
+    flex-direction: column;
   }
   
+  /* Hide social links on mobile header */
   .header__social {
     display: none;
   }
   
-  .nav__brand {
-    position: static;
-    transform: none;
+  /* Hide bottom navigation row on mobile */
+  .header__nav {
+    display: none;
+  }
+  
+  /* Adjust header layout - taller mobile navbar */
+  .header {
+    padding: 0;
   }
   
   .header__top {
-    justify-content: space-between;
+    justify-content: flex-end;
     position: relative;
+    padding: var(--space-5) var(--space-4);
+    min-height: 90px;
   }
   
-  .header__top .nav__brand {
+  .nav__brand {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+    z-index: 2;
+    pointer-events: auto;
   }
   
-  .nav__burger {
-    margin-left: auto;
-    z-index: 3;
+  .nav__logo {
+    font-size: clamp(2.25rem, 8vw, 3rem);
+  }
+  
+  /* Adjust overlay to start right below navbar */
+  .c-overlay {
+    padding-top: calc(90px + var(--safe-area-top));
+  }
+  
+  /* Adjust overlay content spacing on mobile */
+  .c-overlay__content {
+    /* padding-top: var(--space-12); */
+    padding-left: var(--space-4);
+    padding-right: var(--space-4);
+    /* padding-bottom: var(--space-12); */
+  }
+  
+  .c-overlay__links {
+    gap: var(--space-5);
+  }
+  
+  .c-overlay__link {
+    font-size: clamp(1.125rem, 4.5vw, 1.375rem);
+    padding: var(--space-2) var(--space-3);
+  }
+  
+  .c-overlay__social {
+    margin-top: var(--space-8);
+  }
+  
+  .c-overlay__flourish {
+    margin-top: var(--space-8);
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .container {
+    padding: 0 var(--space-6);
   }
 }
 
@@ -880,7 +1212,6 @@ p {
 }
 
 .collection-card:hover {
-  transform: translateY(-4px);
   box-shadow: var(--shadow-lg);
 }
 
@@ -894,10 +1225,6 @@ p {
   height: 400px;
   object-fit: cover;
   transition: var(--transition);
-}
-
-.collection-card:hover .collection-card__image img {
-  transform: scale(1.05);
 }
 
 .collection-card__overlay {

@@ -16,10 +16,18 @@ const App: React.FC = () => {
 
   useEffect(() => {
     // Add padding-top to body to account for fixed header
-    document.body.style.paddingTop = '80px';
+    const updatePadding = () => {
+      // 90px on mobile, 80px on desktop
+      const isMobile = window.innerWidth <= 767;
+      document.body.style.paddingTop = isMobile ? '90px' : '80px';
+    };
+    
+    updatePadding();
+    window.addEventListener('resize', updatePadding);
     
     return () => {
       document.body.style.paddingTop = '';
+      window.removeEventListener('resize', updatePadding);
     };
   }, []);
 

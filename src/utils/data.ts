@@ -1,4 +1,7 @@
 import type { Product, Collection, Testimonial, NavigationItem } from '../types';
+import dropletNeckImage from '../assetsimages/droplet-neck-on-model.jpg';
+import earringsImage from '../assetsimages/earrings-on-model.jpg';
+import earringNecklaceSetImage from '../assetsimages/earring-and-necklase-on-model.jpg';
 
 export const navigation: NavigationItem[] = [
   { id: 'about', label: 'За нас', href: '#about' },
@@ -60,25 +63,25 @@ export const products: Product[] = [
 
 export const collections: Collection[] = [
   {
-    id: 'rings',
-    title: 'Пръстени',
-    description: 'Кръгове на намерението, носени близо до сърцето',
-    image: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=400&h=500&fit=crop&crop=center',
-    alt: 'Колекция деликатни златни пръстени'
-  },
-  {
     id: 'necklaces',
     title: 'Колиета',
     description: 'Нежни шепоти върху твоята кожа',
-    image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=400&h=500&fit=crop&crop=center',
-    alt: 'Колекция деликатни златни колиета'
+    image: dropletNeckImage,
+    alt: 'Деликатно златно колие с капчица върху манекен'
   },
   {
     id: 'earrings',
     title: 'Обеци',
     description: 'Танцуваща светлина, която обгражда твоята грация',
-    image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=400&h=500&fit=crop&crop=center',
-    alt: 'Колекция деликатни златни обеци'
+    image: earringsImage,
+    alt: 'Красиви обеци с естествени цветя в смола върху манекен'
+  },
+  {
+    id: 'sets',
+    title: 'Комплекти',
+    description: 'Хармония между обеци и колиета',
+    image: earringNecklaceSetImage,
+    alt: 'Комплект обеци и колие с естествени цветя върху манекен'
   }
 ];
 
