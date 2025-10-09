@@ -963,19 +963,15 @@ body:has(.c-overlay.is-open) {
   top: 0;
   left: 0;
   width: 100%;
-  /* Use fixed pixel height based on initial viewport to prevent resizing */
   height: 100vh;
   height: calc(var(--vh, 1vh) * 100);
-  min-height: 100vh; /* Fallback to ensure coverage */
+  min-height: 100vh;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-attachment: fixed;
   z-index: -1;
-  /* GPU acceleration to prevent repaints */
-  will-change: transform;
-  transform: translate3d(0, 0, 0);
-  /* Prevent image from being affected by iOS toolbar */
+  /* Optimize for smooth scrolling */
+  transform: translateZ(0);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
