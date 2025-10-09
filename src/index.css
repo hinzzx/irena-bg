@@ -664,14 +664,18 @@ p {
   pointer-events: none;
   overflow: hidden;
   overscroll-behavior: contain;
-  transition: opacity var(--duration-base) var(--ease-smooth),
-              visibility 0ms var(--duration-base);
+  transition: opacity var(--duration-fast) ease-out,
+              visibility 0ms var(--duration-fast);
   /* Respect safe areas (iOS notch) */
   padding-right: var(--safe-area-right);
   padding-bottom: var(--safe-area-bottom);
   padding-left: var(--safe-area-left);
   /* Start below navbar */
   padding-top: calc(80px + var(--safe-area-top));
+  /* Isolate to prevent affecting hero background */
+  will-change: opacity;
+  contain: layout style paint;
+  touch-action: none;
 }
 
 .c-overlay.is-open {
@@ -683,13 +687,7 @@ p {
               visibility 0ms 0ms;
 }
 
-/* Prevent body scroll when overlay is open */
-body:has(.c-overlay.is-open) {
-  overflow: hidden !important;
-  position: fixed;
-  width: 100%;
-  height: 100%;
-}
+/* Removed scroll lock - testing without any scroll prevention */
 
 /* Backdrop Overlay - Removed, not needed */
 .c-overlay__backdrop {
@@ -712,12 +710,13 @@ body:has(.c-overlay.is-open) {
   padding-right: var(--container-padding-mobile);
   text-align: center;
   overflow: hidden;
-  transform: translateY(20px);
-  transition: transform var(--duration-base) var(--ease-smooth);
+  /* Simplified transition for better performance on high refresh rate */
+  opacity: 0;
+  transition: opacity var(--duration-fast) ease-out;
 }
 
 .c-overlay.is-open .c-overlay__content {
-  transform: translateY(0);
+  opacity: 1;
 }
 
 /* Overlay Header (Logo) - Hidden since logo stays in navbar */
@@ -747,15 +746,8 @@ body:has(.c-overlay.is-open) {
 }
 
 .c-overlay__item {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity var(--duration-base) var(--ease-smooth),
-              transform var(--duration-base) var(--ease-smooth);
-}
-
-.c-overlay.is-open .c-overlay__item {
+  /* Remove individual item transitions for better performance */
   opacity: 1;
-  transform: translateY(0);
 }
 
 /* Navigation Links */
@@ -964,43 +956,34 @@ body:has(.c-overlay.is-open) {
   left: 0;
   width: 100%;
   height: 100vh;
-  height: calc(var(--vh, 1vh) * 100);
   min-height: 100vh;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  object-fit: cover;
+  object-position: center;
   z-index: -1;
-  /* Optimize for smooth scrolling */
+  /* Hardware acceleration for 120Hz displays */
   transform: translateZ(0);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  /* Isolate completely to prevent any repaints */
+  will-change: auto;
+  pointer-events: none;
+  user-select: none;
 }
 
-/* Desktop: zoom out to show more of the image and reduce quality loss */
-@media (min-width: 768px) {
-  .hero__image {
-    /* Show more of the image by fitting height fully */
-    background-size: auto 110vh;
-    background-position: center center;
-  }
+/* Image overlay for better text contrast */
+.hero__image + * {
+  position: relative;
 }
 
-/* Large desktop: further optimization */
-@media (min-width: 1440px) {
-  .hero__image {
-    /* Show even more on very large screens */
-    background-size: auto 120vh;
-    background-position: center center;
-  }
-}
-
-.hero__image::after {
+.hero::before {
   content: '';
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
   /* Enhanced overlay for better text contrast */
   background: linear-gradient(
     135deg,

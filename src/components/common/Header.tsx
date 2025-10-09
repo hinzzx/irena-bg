@@ -12,50 +12,47 @@ const Header: React.FC<HeaderProps> = ({ navigation }) => {
   const overlayRef = useRef<HTMLDivElement>(null);
   const firstFocusableRef = useRef<HTMLAnchorElement>(null);
 
-  // Handle scroll detection
+  // Handle scroll detection with throttling for performance
   useEffect(() => {
+    let ticking = false;
+
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 50);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Handle body scroll lock
-  useEffect(() => {
-    if (isMenuOpen) {
-      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-      document.body.style.overflow = 'hidden';
-      document.body.style.paddingRight = `${scrollbarWidth}px`;
-    } else {
-      document.body.style.overflow = '';
-      document.body.style.paddingRight = '';
-    }
-
-    return () => {
-      document.body.style.overflow = '';
-      document.body.style.paddingRight = '';
-    };
-  }, [isMenuOpen]);
+  // REMOVED: All scroll lock mechanisms to test performance
+  // The scroll lock was causing layout thrashing on 120Hz displays
 
   // Close menu function - must be defined before useEffect that uses it
   const closeMenu = useCallback(() => {
     setIsMenuOpen(false);
-    // Return focus to burger button
-    setTimeout(() => {
-      burgerButtonRef.current?.focus();
-    }, 100);
+    // Return focus to burger button after menu transitions out
+    // Use double RAF to ensure this happens after all renders complete
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        burgerButtonRef.current?.focus();
+      });
+    });
   }, []);
 
   // Focus trap and keyboard navigation
   useEffect(() => {
     if (!isMenuOpen) return;
 
-    // Focus first link when menu opens
-    const timer = setTimeout(() => {
+    // Focus first link when menu opens - use RAF for better timing
+    requestAnimationFrame(() => {
       firstFocusableRef.current?.focus();
-    }, 100);
+    });
 
     const handleKeyDown = (e: KeyboardEvent) => {
       // Close on Escape
@@ -93,7 +90,6 @@ const Header: React.FC<HeaderProps> = ({ navigation }) => {
     document.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      clearTimeout(timer);
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [isMenuOpen, closeMenu]);
@@ -105,15 +101,29 @@ const Header: React.FC<HeaderProps> = ({ navigation }) => {
 
   // Handle navigation clicks
   const handleNavClick = (href: string) => {
-    closeMenu();
+    // Close menu
+    setIsMenuOpen(false);
     
     if (href.startsWith('#')) {
-      setTimeout(() => {
-        const element = document.querySelector(href);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 300);
+      // Wait for menu to close and scroll position to restore
+      // Use multiple RAFs to ensure proper timing on high refresh rate displays
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            const element = document.querySelector(href);
+            if (element) {
+              const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+              const headerOffset = window.innerWidth <= 767 ? 90 : 80;
+              const offsetPosition = elementPosition - headerOffset;
+              
+              window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+              });
+            }
+          });
+        });
+      });
     }
   };
 
@@ -222,9 +232,6 @@ const Header: React.FC<HeaderProps> = ({ navigation }) => {
                     onClick={(e) => {
                       e.preventDefault();
                       handleNavClick(item.href);
-                    }}
-                    style={{ 
-                      transitionDelay: isMenuOpen ? `${(index + 1) * 50}ms` : '0ms'
                     }}
                     tabIndex={isMenuOpen ? 0 : -1}
                   >

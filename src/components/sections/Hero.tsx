@@ -13,11 +13,10 @@ const Hero: React.FC = () => {
 
     // Fix for iOS Safari viewport height flickering
     // Set viewport height ONCE and only update on orientation change (device rotation)
-    // Do NOT update on resize events caused by iOS toolbar appearing/disappearing
     let lastWidth = window.innerWidth;
+    let resizeTimeout: ReturnType<typeof setTimeout>;
     
     const setVH = () => {
-      // Use the larger viewport height (when toolbar is hidden) for consistent sizing
       const vh = window.innerHeight * 0.01;
       document.documentElement.style.setProperty('--vh', `${vh}px`);
     };
@@ -27,29 +26,30 @@ const Hero: React.FC = () => {
 
     // Only update on actual orientation change, not on resize from toolbar
     const handleOrientationChange = () => {
-      // Wait for orientation change to complete and get accurate dimensions
       setTimeout(() => {
         setVH();
         lastWidth = window.innerWidth;
       }, 100);
     };
 
-    // Only handle resize if width actually changed (real resize, not toolbar)
+    // Debounced resize handler for better performance
     const handleResize = () => {
-      const currentWidth = window.innerWidth;
-      if (currentWidth !== lastWidth) {
-        // Width changed = real resize, not just toolbar appearance
-        setVH();
-        lastWidth = currentWidth;
-      }
-      // If only height changed (toolbar), ignore it to prevent flickering
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        const currentWidth = window.innerWidth;
+        if (currentWidth !== lastWidth) {
+          setVH();
+          lastWidth = currentWidth;
+        }
+      }, 150);
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', handleResize, { passive: true });
     window.addEventListener('orientationchange', handleOrientationChange);
 
     return () => {
       clearTimeout(timer);
+      clearTimeout(resizeTimeout);
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('orientationchange', handleOrientationChange);
     };
@@ -98,12 +98,13 @@ const Hero: React.FC = () => {
           </button>
         </div>
       </div>
-      <div 
-        className="hero__image" 
-        style={{ backgroundImage: `url(${heroImage})` }}
-        role="img" 
-        aria-label="Жена носеща деликатни ръчно изработені бижута при естествена светлина"
-      ></div>
+      <img 
+        src={heroImage}
+        alt="Жена носеща деликатни ръчно изработені бижута при естествена светлина"
+        className="hero__image"
+        loading="eager"
+        decoding="async"
+      />
     </section>
   );
 };
