@@ -39,6 +39,15 @@ const Header: React.FC<HeaderProps> = ({ navigation }) => {
     };
   }, [isMenuOpen]);
 
+  // Close menu function - must be defined before useEffect that uses it
+  const closeMenu = useCallback(() => {
+    setIsMenuOpen(false);
+    // Return focus to burger button
+    setTimeout(() => {
+      burgerButtonRef.current?.focus();
+    }, 100);
+  }, []);
+
   // Focus trap and keyboard navigation
   useEffect(() => {
     if (!isMenuOpen) return;
@@ -88,15 +97,6 @@ const Header: React.FC<HeaderProps> = ({ navigation }) => {
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [isMenuOpen, closeMenu]);
-
-  // Close menu function
-  const closeMenu = useCallback(() => {
-    setIsMenuOpen(false);
-    // Return focus to burger button
-    setTimeout(() => {
-      burgerButtonRef.current?.focus();
-    }, 100);
-  }, []);
 
   // Toggle menu
   const toggleMenu = () => {
